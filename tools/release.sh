@@ -28,7 +28,7 @@ echo "Current version on PyPI: $PYPI_VERSION"
 # Phase 1: Version Validation
 echo -e "\nValidating versions..."
 # Get current version from pyproject.toml
-CURRENT_VERSION=$(grep -Po '(?<=version = ")[^"]*' pyproject.toml)
+CURRENT_VERSION=$(grep -Po '(?<=version = ")[^"]*' pyproject.toml | head -n1)
 echo "Current version in pyproject.toml: $CURRENT_VERSION"
 
 # Phase 2: Git Status Checks
