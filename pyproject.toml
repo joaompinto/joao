@@ -45,9 +45,9 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/joaompinto/quickagent"
-Repository = "https://github.com/joaompinto/quickagent.git"
-Issues = "https://github.com/joaompinto/quickagent/issues"
+Homepage = "https://github.com/joaompinto/joao"
+Repository = "https://github.com/joaompinto/joao.git"
+Issues = "https://github.com/joaompinto/joao/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["joao"]
