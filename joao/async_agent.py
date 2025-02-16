@@ -3,8 +3,8 @@ from openai import AsyncOpenAI
 from typing import Optional, List, Callable, Union, AsyncIterator
 from .tools import AsyncToolsHandler
 
-DEFAULT_BASE_URL = "https://api.openai.com/v1/"
-DEFAULT_MODEL = "gpt-3.5-turbo"
+DEFAULT_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/"
+DEFAULT_MODEL = "gemini-2.0-flash"
 
 class AsyncAgent:
     def __init__(self, system_prompt=None, temperature=0.7, tenant_prefix=None):
@@ -33,7 +33,7 @@ class AsyncAgent:
         self, 
         message: str, 
         tools: Optional[List[Callable]] = None, 
-        use_tools: bool = False,
+        auto_use_tools: bool = False,
         stream: bool = False
     ) -> Union[str, AsyncIterator[str]]:
         """Send a message to the chat model with optional function calling tools.
@@ -41,7 +41,7 @@ class AsyncAgent:
         Args:
             message: The message to send
             tools: Optional list of callable functions to be used as tools
-            use_tools: If True, automatically execute any tool calls in the response
+            auto_use_tools: If True, automatically execute any tool calls in the response
             stream: If True, stream the response token by token
         
         Returns:
@@ -77,7 +77,7 @@ class AsyncAgent:
         self.messages.append(answer)
         self.tools_handler.set_tool_calls(answer.tool_calls)
         
-        if use_tools and answer.tool_calls:
+        if auto_use_tools and answer.tool_calls:
             return await self.use_tools(autoupdate=True)
             
         return answer.content

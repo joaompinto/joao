@@ -151,7 +151,7 @@ def test_agent_request_no_auto_tool_execution(mock_openai):
     assert response == "Using tool..."  # Original response without tool execution
     assert mock_openai.chat.completions.create.call_count == 1
 
-def test_use_tools_without_autoupdate(mock_openai):
+def test_use_tools_without_auto_update(mock_openai):
     def test_tool(param: str):
         """Test tool"""
         return f"Tool called with {param}"
@@ -166,12 +166,12 @@ def test_use_tools_without_autoupdate(mock_openai):
     mock_tool_call.function.arguments = '{"param": "test value"}'
     
     agent.tools_handler.set_tool_calls([mock_tool_call])
-    result = agent.use_tools(autoupdate=False)
+    result = agent.use_tools(auto_update=False)
     
     assert result is None  # No update requested
     assert mock_openai.chat.completions.create.call_count == 0
 
-def test_use_tools_with_autoupdate(mock_openai):
+def test_use_tools_with_auto_update(mock_openai):
     def test_tool(param: str):
         """Test tool"""
         return f"Tool called with {param}"
@@ -186,7 +186,7 @@ def test_use_tools_with_autoupdate(mock_openai):
     mock_tool_call.function.arguments = '{"param": "test value"}'
     
     agent.tools_handler.set_tool_calls([mock_tool_call])
-    result = agent.use_tools(autoupdate=True)
+    result = agent.use_tools(auto_update=True)
     
     assert result == "Hello, I'm a mock response"  # From the completion after tool execution
     assert mock_openai.chat.completions.create.call_count == 1
@@ -283,7 +283,7 @@ async def test_async_agent_request_with_auto_tool_execution(mock_async_openai):
     assert response == "Tool execution complete"
 
 @pytest.mark.asyncio
-async def test_async_use_tools_without_autoupdate(mock_async_openai):
+async def test_async_use_tools_without_auto_update(mock_async_openai):
     async def test_tool(param: str):
         """Test tool"""
         return f"Tool called with {param}"
@@ -298,12 +298,12 @@ async def test_async_use_tools_without_autoupdate(mock_async_openai):
     mock_tool_call.function.arguments = '{"param": "test value"}'
     
     agent.tools_handler.set_tool_calls([mock_tool_call])
-    result = await agent.use_tools(autoupdate=False)
+    result = await agent.use_tools(auto_update=False)
     
     assert result is None  # No update requested
 
 @pytest.mark.asyncio
-async def test_async_use_tools_with_autoupdate(mock_async_openai):
+async def test_async_use_tools_with_auto_update(mock_async_openai):
     async def test_tool(param: str):
         """Test tool"""
         return f"Tool called with {param}"
@@ -334,6 +334,6 @@ async def test_async_use_tools_with_autoupdate(mock_async_openai):
     mock_tool_call.function.arguments = '{"param": "test value"}'
     
     agent.tools_handler.set_tool_calls([mock_tool_call])
-    result = await agent.use_tools(autoupdate=True)
+    result = await agent.use_tools(auto_update=True)
     
     assert result == "Tool execution complete"
