@@ -55,31 +55,31 @@ A dual-purpose tool providing both a Python library for building chat agents and
 
 ```bash
 # Start interactive chat mode (with system prompt)
-python -m joao -s "You are a helpful assistant"
+joao -s "You are a helpful assistant"
 
 # Start chat mode without system prompt
-python -m joao
+joao
 
 # Single prompt mode with system prompt
-python -m joao -s "You are a helpful assistant" "What is the capital of France?"
+joao -s "You are a helpful assistant" "What is the capital of France?"
 
 # Single prompt mode without system prompt
-python -m joao "What is the capital of France?"
+joao "What is the capital of France?"
 
 # Enable streaming output
-python -m joao -s "You are a storyteller" --stream "Tell me a story"
+joao -s "You are a storyteller" --stream "Tell me a story"
 
 # Set temperature (0.0-2.0, default: 0)
-python -m joao -s "You are a creative writer" -t 0.7 "Tell me a creative story"
+joao -s "You are a creative writer" -t 0.7 "Tell me a creative story"
 
 # Show raw output without markdown formatting
-python -m joao -s "You are a helpful assistant" --raw "Hello"
+joao -s "You are a helpful assistant" --raw "Hello"
 
 # Use different API provider
-python -m joao -s "You are a helpful assistant" -e OPENAI "Using OpenAI API"
+joao -s "You are a helpful assistant" -e OPENAI "Using OpenAI API"
 
 # Show debug info
-python -m joao -s "You are a helpful assistant" --debug "Test message"
+joao -s "You are a helpful assistant" --debug "Test message"
 ```
 
 ### Interactive Chat Commands
@@ -121,7 +121,7 @@ agent = Agent("You are a helpful driver")
 response = agent.request(
     "Can you drive me to San Francisco?", 
     tools=[drive_to],
-    use_tools=True  # Auto-execute any tool calls
+    auto_use_tools=True  # Auto-execute any tool calls
 )
 ```
 
