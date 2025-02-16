@@ -89,13 +89,50 @@ When in chat mode, you have access to these commands:
 - `/reset <prompt>` - Clear history and set new system prompt
 - `Ctrl+C` - Exit chat session
 
+### Configuration Examples
+
+```python
+from joao import Agent, AsyncAgent
+
+# Basic configuration with API key
+agent = Agent(
+    system_prompt="You are a helpful assistant",
+    api_key="your-api-key-here"
+)
+
+# Full configuration
+agent = Agent(
+    system_prompt="You are a helpful assistant",
+    api_key="your-api-key-here",
+    temperature=0.7,  # Control response randomness (0.0-2.0)
+    tenant_prefix="AZURE",  # Use AZURE_OPENAI_BASE_URL, AZURE_OPENAI_MODEL etc.
+    debug=True  # Enable debug output
+)
+
+# Async agent configuration
+async_agent = AsyncAgent(
+    system_prompt="You are a helpful assistant",
+    api_key="your-api-key-here",
+    temperature=0.7,
+    tenant_prefix="OPENAI"  # Use OPENAI_BASE_URL, OPENAI_MODEL etc.
+)
+```
+
+The API key can be provided in three ways (in order of precedence):
+1. Directly in the constructor via `api_key` parameter
+2. Through environment variable `OPENAI_API_KEY`
+3. Through prefixed environment variable (e.g., `AZURE_OPENAI_API_KEY` if tenant_prefix="AZURE")
+
 ### Simple Chat API
 
 ```python
 from joao import Agent
 
 # Create an agent with a personality
-agent = Agent("You are Snoopy, the beloved Peanuts character")
+agent = Agent(
+    "You are Snoopy, the beloved Peanuts character",
+    api_key="your-api-key-here"  # Optional - can also use environment variable
+)
 
 # Get a response
 response = agent.request("Who are your friends?")
@@ -117,7 +154,10 @@ def drive_to(location: str):
     print(f"Driving to {location}!")
 
 # Create an agent with tools
-agent = Agent("You are a helpful driver")
+agent = Agent(
+    "You are a helpful driver",
+    api_key="your-api-key-here"  # Optional - can also use environment variable
+)
 response = agent.request(
     "Can you drive me to San Francisco?", 
     tools=[drive_to],
@@ -132,7 +172,10 @@ from joao import AsyncAgent
 import asyncio
 
 async def main():
-    agent = AsyncAgent("You are a helpful assistant")
+    agent = AsyncAgent(
+        "You are a helpful assistant",
+        api_key="your-api-key-here"  # Optional - can also use environment variable
+    )
     response = await agent.request("Hello!")
     print(response)
 

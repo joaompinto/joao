@@ -12,13 +12,21 @@ DEFAULT_BASE_URL = "https://generativelanguage.googleapis.com/v1beta"
 console = Console()
 
 class Agent:
-    def __init__(self, system_prompt: str = None, temperature: float = 0, tenant_prefix: str = None, debug: bool = False):
-        """Initialize the agent with optional system prompt and tenant prefix."""
+    def __init__(self, system_prompt: str = None, temperature: float = 0, tenant_prefix: str = None, debug: bool = False, api_key: str = None):
+        """Initialize the agent with optional system prompt and tenant prefix.
+        
+        Args:
+            system_prompt: Initial system prompt for the conversation
+            temperature: Sampling temperature (0.0-2.0)
+            tenant_prefix: Optional prefix for environment variables
+            debug: Enable debug output
+            api_key: Optional API key (if not provided, will look in environment variables)
+        """
         prefix = f"{tenant_prefix}_" if tenant_prefix else ""
         
-        self.api_key = getenv(f"{prefix}OPENAI_API_KEY")
+        self.api_key = api_key or getenv(f"{prefix}OPENAI_API_KEY")
         if not self.api_key:
-            raise ValueError(f"Missing {prefix}OPENAI_API_KEY environment variable")
+            raise ValueError(f"Missing API key: must be provided via constructor or {prefix}OPENAI_API_KEY environment variable")
             
         self.base_url = getenv(f"{prefix}OPENAI_BASE_URL", DEFAULT_BASE_URL)
         self.model = getenv(f"{prefix}OPENAI_MODEL", DEFAULT_MODEL)
